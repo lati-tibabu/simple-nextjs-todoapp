@@ -1,0 +1,38 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+      // 1, rename the column
+      await queryInterface.renameColumn('Task', 'id', 'task_id');
+
+      await queryInterface.changeColumn('Task', 'task_id', {
+	  type: Sequelize.INTEGER,
+	  primaryKey: true,
+	  autoIncrement: true
+      });
+      
+  },
+
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
+      await queryInterface.renameColumn('Task', 'task_id', 'id');
+
+      await queryInterface.changeColumn('Task', 'id', {
+	  type: Sequelize.INTEGER,
+	  primaryKey: false,
+	  autoIncrement: false,
+      });
+  }
+};
